@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Data Mata Kuliah</h1>
+<hr><br>
+<div class="table-responsive">
+    <table class="table table-bordered table-sm table-hover table-striped">
+        <thead>
+        <tr class="text-center">
+            <th scope="col">No</th>
+            <th scope="col">Mata Kuliah</th>
+            <th scope="col">Dosen Pengampu</th>
+            <th scope="col">SKS</th>
+            <th scope="col">Waktu</th>
+            <th scope="col">Ruang</th>
+            <th scope="col">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in datas %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ data.kode_matkul }} - {{ data.nama_matkul }} ({{ data.group }})</td>
+            <td>{{ Dosen.query.filter_by(nip=data.dosen).first().nama }}</td>
+            <td>{{ data.sks }}</td>
+            <td>{{ namahari[data.hari]}}, {{data.jam.strftime("%H:%M")}}</td>
+            <td>{{ data.ruang }}</td>
+            <td><a href="matakuliah/{{data.kode_matkul_group}}" class="btn btn-sm btn-outline-primary" role="button"
+                   aria-pressed="true">Detail</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

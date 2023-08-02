@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Data Mahasiswa</h1>
+<hr> <br>
+<h3>Biodata Mahasiswa</h3>
+<div class="table-responsive mb-4">
+    <table class="table table-borderless">
+        <tbody>
+        <tr>
+            <td width="200px" rowspan="4"><img width="150px"
+                    class="img-fluid"
+                    src="/static/mahasiswa/{{data.foto_path}}">
+            </td>
+            <td>NIM</td>
+            <td>:   {{ data.nim }}</td>
+        </tr>
+        <tr>
+            <td>Nama</td>
+            <td>:   {{ data.nama }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>:   {{ data.email }}</td>
+        </tr>
+        <tr>
+            <td>Telp</td>
+            <td>:   {{ data.telp }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<h3>Mata Kuliah yang Sedang Diambil</h3>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Mata Kuliah</th>
+            <th scope="col">Waktu</th>
+            <th scope="col">Ruang</th>
+            <th scope="col">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in enrollment %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ data.data_matkul.kode_matkul }} - {{ data.data_matkul.nama_matkul }} ({{ data.data_matkul.group }})</td>
+            <td>{{ namahari[data.data_matkul.hari]}}, {{data.data_matkul.jam.strftime("%H:%M")}}</td>
+            <td>{{ data.data_matkul.ruang }}</td>
+            <td><a href="/matakuliah/{{data.data_matkul.kode_matkul_group}}" class="btn btn-sm btn-outline-primary" role="button"
+                   aria-pressed="true">Detail</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

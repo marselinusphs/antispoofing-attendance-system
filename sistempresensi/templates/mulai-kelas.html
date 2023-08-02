@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Mulai Kelas</h1>
+<hr><br>
+<div class="content-section">
+    <h4>Pilih mata kuliah</h4>
+    <form action="" class="was-validated" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group mb-4">
+            {{ form.kode_matkul_group(class="form-control form-control-md") }}
+            <div class="invalid-feedback">
+                Masukkan mata kuliah yang valid!
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-danger") }}
+        </div>
+    </form>
+</div>
+{% endblock content %}

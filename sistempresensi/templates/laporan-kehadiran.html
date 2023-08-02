@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Laporan Kehadiran</h1>
+<hr><br>
+{% if data_enrollment %}
+<div class="table-responsive">
+    <table class="table table-sm table-borderless">
+        <tbody>
+        <tr>
+            <td>Kode Mata Kuliah</td>
+            <td>:   {{ data_enrollment[0].data_matkul.kode_matkul }} - {{ data_enrollment[0].data_matkul.nama_matkul }} ({{ data_enrollment[0].data_matkul.group }})</td>
+        </tr>
+        <tr>
+            <td>Semester</td>
+            <td>:   {% if data_enrollment[0].data_matkul.semester==2%}Genap
+                {%else%}Ganjil
+                {%endif%}
+                {{ data_enrollment[0].data_matkul.kode_matkul_group[:4] }}/{{ data_enrollment[0].data_matkul.kode_matkul_group[4:8] }}
+            </td>
+        </tr>
+        <tr>
+            <td>SKS</td>
+            <td>:   {{ data_enrollment[0].data_matkul.sks }}</td>
+        </tr>
+        <tr>
+            <td>Dosen Pengampu</td>
+            <td>:   {{ data_enrollment[0].data_matkul.data_dosen.nama }}</td>
+        </tr>
+        <tr>
+            <td>Ruang / Waktu</td>
+            <td>:   {{ data_enrollment[0].data_matkul.ruang }} / {{ namahari[data_enrollment[0].data_matkul.hari]}} {{data_enrollment[0].data_matkul.jam.strftime("%H:%M")}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered table-hover table-striped" style="white-space: nowrap;">
+        <thead class="">
+        <tr class="text-center">
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">NIM</th>
+            <th rowspan="2" scope="col">Nama</th>
+            <th colspan="{{flags.shape[1]}}" scope="col">Pertemuan ke-</th>
+
+            <th rowspan="2" scope="col" width="100px">Persentase Kehadiran</th>
+        </tr>
+        <tr class="text-center">
+            {% for a in range(flags.shape[1]) %}
+            <th scope="col">{{loop.index}}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% set idx=0 %}
+        {% for data in data_enrollment %}
+        {% set idx=idx+1 %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td><a data-bs-title="{{data.data_mahasiswa.nim}}" data-bs-toggle="tooltip" href="#">{{data.data_mahasiswa.nim}}</a>
+            </td>
+            <td>{{data.data_mahasiswa.nama}}</td>
+            {%for i in flags[loop.index-1]%}
+                {% if i[1]==1%}
+                {% set mm = i[3]/60 | int %}
+                {% set ss = i[3]%60 | int %}
+                {% if mm > 15.0 %}
+                <td class="text-center" style="background-color:#F9D923; min-width:40px; max-width:40px">
+                    <div class="opacity-0">
+                        <button class="btn btn-secondary" data-bs-html="true" data-bs-placement="top"
+                                data-bs-title="<img width=100% src='/static/kehadiran/{{i[0]}}/{{i[4]}}'><p>Terlambat: {{ mm|int }} menit {{ ss }} detik</p>"
+                                data-bs-toggle="tooltip" style="min-width: 100%"
+                                type="button"></button>
+                    </div>
+                </td>
+                {%else%}
+                <td class="text-center" style="background-color:#36AE7C; min-width:40px;max-width:40px">
+
+                    <div class="opacity-0">
+                        <button class="btn btn-secondary" data-bs-html="true" data-bs-placement="top"
+                                data-bs-title="<img width=100% src='/static/kehadiran/{{i[0]}}/{{i[4]}}'><p>Terlambat: {{ mm|int }} menit {{ ss }} detik</p>"
+                                data-bs-toggle="tooltip" style="min-width: 100%"
+                                type="button"></button>
+                    </div>
+                </td>
+                {%endif%}
+                {%else%}
+                <td class="text-center" style="background-color:#EB5353; min-width:40px;max-width:40px"></td>
+
+                {%endif%}
+            {%endfor%}
+            <td>{{ total_kehadiran[idx-1]}}%</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% else %}
+<div class="alert alert-warning">
+    Tidak ada peserta dalam mata kuliah ini!
+</div>
+{%endif%}
+{% endblock content %}

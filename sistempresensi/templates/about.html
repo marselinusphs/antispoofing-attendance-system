@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>About Page</h1>
+<hr><br>
+<p class="fs-5 lh-lg text-center"><span class="fw-semibold">Anti-Spoofing Attendance System </span> adalah sebuah solusi
+    yang dirancang untuk meningkatkan keamanan dan akurasi dalam proses presensi di lingkungan kampus. Sistem ini
+    menggunakan teknologi pengenalan wajah yang dapat secara otomatis mengenali dan memverifikasi identitas individu
+    berdasarkan ciri-ciri wajah unik mereka. Untuk mencegah serangan spoofing atau pemalsuan, sistem ini menerapkan
+    algoritma Support Vector Machine (SVM) yang cukup handal dalam mendeteksi dan membedakan wajah asli dari wajah
+    palsu.
+</p>
+<p class="fs-5 lh-lg text-center">
+    Deteksi spoofing dalam sistem ini didasarkan pada dua teknik utama, yaitu ekstraksi fitur tekstur Local Binary
+    Patterns (LBP) dan Gray Level Co-Occurrence Matrix (GLCM). Teknik ekstraksi fitur ini memungkinkan sistem untuk
+    mengidentifikasi pola tekstur dalam gambar wajah guna membedakan wajah asli dengan wajah palsu. Algoritma SVM
+    digunakan untuk mengklasifikasikan wajah berdasarkan fitur-fitur ini, sehingga meningkatkan akurasi deteksi
+    spoofing. Dengan implementasi teknologi ini, sistem berhasil mencapai hasil akurasi sebesar 94% dalam mendeteksi dan
+    mencegah serangan spoofing yang dapat mengancam keamanan dan integritas data presensi.</p>
+{% endblock content %}

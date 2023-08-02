@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Data Enrollment Mata Kuliah</h1>
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark"><tr>
+        <th scope="col">No.</th>
+        <th scope="col">NIM Mahasiswa</th>
+        <th scope="col">Kode Mata Kuliah</th>
+    </tr></thead>
+
+    {% for data in datas %}
+    <tr>
+        <th scope="row">{{ data.id }}</th>
+        <td>{{ data.nim }}</td>
+        <td>{{ data.matkul }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

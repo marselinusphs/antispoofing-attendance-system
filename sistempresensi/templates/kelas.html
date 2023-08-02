@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if not enrollment %}
+<div class="alert alert-warning">
+    Tidak ada peserta dalam mata kuliah ini!
+</div>
+
+{%else%}
+{% if kelas.selesai %}
+<div class="alert alert-danger">
+    Kelas telah berakhir!
+</div>
+{% endif %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h1>Informasi Kelas</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td>Pertemuan ke-</td>
+                        <td>{{ kelas.kode_kelas[20:] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Semester</td>
+                        <td>{% if kelas.data_matkul.semester==2%}Genap
+                            {%else%}Ganjil
+                            {%endif%}
+                            {{ kelas.kode_kelas[:4] }}/{{ kelas.kode_kelas[4:8] }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mata Kuliah</td>
+                        <td>{{ kelas.data_matkul.kode_matkul }} - {{ kelas.data_matkul.nama_matkul }}
+                            ({{kelas.data_matkul.group}})
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dosen Pengampu</td>
+                        <td>{{ kelas.data_matkul.data_dosen.nama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Waktu</td>
+                        {%if kelas.selesai%}
+                        <td>{{ kelas.mulai.strftime("%d %B %Y %H:%M:%S") }} - {{ kelas.selesai.strftime("%H:%M:%S") }}</td>
+                        {%else%}
+                        <td>{{ kelas.mulai.strftime("%d %B %Y %H:%M:%S") }}</td>
+                        {%endif%}
+                    </tr>
+                    <tr>
+                        <td>Ruang</td>
+                        <td>{{ kelas.data_matkul.ruang }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Button trigger modal -->
+            {% if enrollment %}
+            <button class="btn btn-outline-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" type="button">
+                Daftar Hadir
+            </button>
+            {%else%}
+            <button class="btn btn-secondary disabled" type="button">
+                Daftar Hadir
+            </button>
+            {% endif %}
+
+            {% if kelas.selesai%}
+            <button class="btn btn-danger disabled" type="button">
+                Akhiri
+            </button>
+            {%else%}
+            <button class="btn btn-danger" data-bs-target="#exampleModal2" data-bs-toggle="modal" type="button">
+                Akhiri
+            </button>
+            {%endif%}
+
+        </div>
+        {% if enrollment and not kelas.selesai %}
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Camera</h5>
+                </div>
+                <div class="card-body">
+                    <div aria-hidden="true" class="col" width=10%>
+                        <img class="p-0" onload="toastFunc()"
+                             src="{{ url_for('video', kode_kelas=kelas.kode_kelas, isDosen=0) }}"
+                             width=100%/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">Daftar Hadir</h1>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <!--                <iframe src="../daftar-hadir/{{kelas.kode_kelas}}"></iframe>-->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="text-center">
+                        <tr>
+                            <th scope="col">No.</th>
+                            <!--                            <th scope="col" width="100px">Foto</th>-->
+                            <th scope="col" width="150px">Foto</th>
+                            <th scope="col">NIM</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Waktu Kedatangan</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div id="div1">
+                            {% for data in enrollment %}
+                        </div>
+                        <tr id="tr1">
+                            <th scope="row">{{ loop.index }}</th>
+                            <td> {% for h in kehadiran %}
+                                {%if h.nim == data.nim%}
+                                <img class="img-fluid" src="/static/kehadiran/{{kelas.kode_kelas}}/{{h.foto_path}}"
+                                     width="100%">
+                                {{ break }}
+                                {% endif %}
+                                {%endfor%}
+                            </td>
+                            <td>{{ data.nim }}</td>
+                            <td>{{ data.data_mahasiswa.nama }}</td>
+
+                            {% for h in kehadiran %}
+                            {%if h.nim == data.nim%}
+                            <td>{{h.waktu.strftime("%d %B %Y %H:%M:%S") }}</td>
+                            {{ break }}
+                            {% else %}
+                            <td></td>
+                            {% endif %}
+                            {%endfor%}
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel2" class="modal fade" id="exampleModal2" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel2">Konfirmasi</h1>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                Yaqueen bos?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Eh gajadi deh..</button>
+                <form action="{{ url_for('end_kelas', id=kelas.kode_kelas) }}" method="POST">
+                    <input class="btn btn-danger" type="submit" value="Yoi bos">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{%endif%}
+{% endblock content %}

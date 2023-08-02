@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Laporan Kehadiran</h1>
+<hr><br>
+<h3>Pilih Mata Kuliah</h3>
+<ul>
+    {% for data in datas %}
+    <li>
+        <p><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+              href="{{data.kode_matkul}}/">{{
+            data.kode_matkul }} - {{ data.nama_matkul }}</a></p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

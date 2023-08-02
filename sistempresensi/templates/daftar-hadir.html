@@ -1,0 +1,63 @@
+<!doctype html>
+<head>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col" width="150px">Foto</th>
+            <th scope="col">NIM</th>
+            <th scope="col">Nama</th>
+            <th scope="col">Waktu Kedatangan</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div id="div1">
+            {% for data in enrollment %}
+        </div>
+        <tr id="tr1">
+            <th scope="row">{{ loop.index }}</th>
+            <td> {% for h in kehadiran %}
+                {%if h.nim == data.nim%}
+                <img class="img-fluid" src="/static/kehadiran/{{kelas.kode_kelas}}/{{h.foto_path}}"
+                     width="100%">
+                {{ break }}
+                {% endif %}
+                {%endfor%}
+            </td>
+            <td>{{ data.nim }}</td>
+            <td>{{ data.data_mahasiswa.nama }}</td>
+
+            {% for h in kehadiran %}
+            {%if h.nim == data.nim%}
+            <td>{{h.waktu.strftime("%d %B %Y %H:%M:%S") }}</td>
+            {{ break }}
+            {% else %}
+            <td></td>
+            {% endif %}
+            {%endfor%}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>

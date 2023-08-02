@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Laporan Kehadiran</h1>
+<hr><br>
+<h3>Pilih Kelas</h3>
+    <ul>
+        {% for data in datas %}
+        <li>
+            <p><a href="{{ data.group }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ data.group }}</a></p>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Home page</h1>
+<hr><br>
+<div>
+    <h4>Sedang berlangsung</h4>
+    <div class="table-responsive">
+        <table id="example" class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr class="text-center">
+                <th scope="col">No</th>
+                <th scope="col">Mata kuliah</th>
+                <th scope="col">Dosen Pengampu</th>
+                <th scope="col">Mulai</th>
+                <th scope="col">Ruang</th>
+                <th scope="col">Aksi</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if ongoing_kelas %}
+            {% for data in ongoing_kelas %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ data.data_matkul.kode_matkul }} - {{data.data_matkul.nama_matkul}} ({{data.data_matkul.group}})
+                </td>
+                <td>{{data.data_matkul.data_dosen.nama}}</td>
+                <td>{{ data.mulai.strftime("%H:%M:%S") }}</td>
+                <td>{{ data.data_matkul.ruang }}</td>
+                <td><a aria-pressed="true" class="btn btn-sm btn-outline-primary" href="kelas/{{data.kode_kelas}}"
+                       role="button">Masuk</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td class="text-center fst-italic" colspan="6">Tidak ada kelas yang sedang berlangsung</td>
+            </tr>
+            {%endif%}
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+
+<div>
+    <h4>Baru berakhir</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr class="text-center">
+                <th scope="col">No</th>
+                <th scope="col">Mata kuliah</th>
+                <th scope="col">Dosen Pengampu</th>
+                <th scope="col">Mulai</th>
+                <th scope="col">Ruang</th>
+                <th scope="col">Aksi</th>
+            </tr>
+            </thead>
+            {% if recent_kelas %}
+            <tbody>
+            {% for data in recent_kelas %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ data.data_matkul.kode_matkul }} - {{data.data_matkul.nama_matkul}} ({{data.data_matkul.group}})
+                </td>
+                <td>{{data.data_matkul.data_dosen.nama}}</td>
+                <td>{{ data.mulai.strftime("%H:%M:%S") }} - {{ data.selesai.strftime("%H:%M:%S") }}</td>
+                <td>{{ data.data_matkul.ruang }}</td>
+                <td><a aria-pressed="true" class="btn btn-sm btn-outline-primary" href="kelas/{{data.kode_kelas}}"
+                       role="button">Lihat</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            {% else %}
+            <tbody>
+            <tr>
+                <td class="text-center fst-italic" colspan="6">Tidak ada kelas yang berakhir sejam terakhir</td>
+            </tr>
+            </tbody>
+            {%endif%}
+        </table>
+    </div>
+</div>
+<hr>
+{% endblock content %}

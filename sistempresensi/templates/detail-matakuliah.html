@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Data Mata Kuliah</h1>
+<hr><br>
+<h3>Detail Mata Kuliah</h3>
+<div class="table-responsive">
+    <table class="table table-bordered table-sm">
+        <tbody>
+        <tr>
+            <td>Kode Mata Kuliah</td>
+            <td>{{ data.kode_matkul }} - {{ data.nama_matkul }} ({{ data.group }})</td>
+        </tr>
+        <tr>
+            <td>Semester</td>
+            <td>{% if data.semester==2%}Genap
+                {%else%}Ganjil
+                {%endif%}
+                {{ data.kode_matkul_group[:4] }}/{{ data.kode_matkul_group[4:8] }}
+            </td>
+        </tr>
+        <tr>
+            <td>SKS</td>
+            <td>{{ data.sks }}</td>
+        </tr>
+        <tr>
+            <td>Dosen Pengampu</td>
+            <td>{{ data.data_dosen.nama }}</td>
+        </tr>
+        <tr>
+            <td>Ruang / Waktu</td>
+            <td>{{ data.ruang }} / {{ namahari[data.hari]}} {{data.jam.strftime("%H:%M")}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<hr>
+<br>
+<h3>Daftar Mahasiswa</h3>
+<div class="table-responsive">
+    <table class="table table-bordered table-sm table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">NIM</th>
+            <th scope="col">Nama</th>
+            <th scope="col">Email</th>
+            <th scope="col">Telp</th>
+            <th scope="col">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in enrollment %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ data.data_mahasiswa.nim }}</td>
+            <td>{{ data.data_mahasiswa.nama }}</td>
+            <td>{{ data.data_mahasiswa.email }}</td>
+            <td>{{ data.data_mahasiswa.telp }}</td>
+            <td><a aria-pressed="true" class="btn btn-sm btn-outline-primary" href="/mahasiswa/{{data.data_mahasiswa.nim}}"
+                   role="button">Detail</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

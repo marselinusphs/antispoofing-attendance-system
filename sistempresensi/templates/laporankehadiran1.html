@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Laporan Kehadiran</h1>
+<hr><br>
+<h3>Pilih Semester</h3>
+<ul>
+    {% for data in datas %}
+    <li>
+        {% set tahun_ajaran = data.tahun_ajaran|string %}
+        <p><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+              href="{{ tahun_ajaran }}/{{ data.semester }}/">{{
+            tahun_ajaran[:4] }}/{{ tahun_ajaran[4:] }} -
+            {% if data.semester ==1 %}
+            Ganjil
+            {%else%}
+            Genap
+            {%endif%}</a></p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
